@@ -1,0 +1,21 @@
+<% unless @searched_flights.nil? %>
+    <% if @searched_flights.empty? %> 
+        <h2>Result</h2>
+        <h3>No available flight matches the criteria</h3>
+    <% elsif @searched_flights.length >= 1 %>
+        <h2>Result</h2>
+        <%= form_with url: "/bookings/new", method: :get do |f| %>
+            <%# <%= f.collection_radio_buttons :chosen_flight, @searched_flights, :id, :name %>
+            
+            <% @searched_flights.each do |flight| %>
+                <input type="radio", name = "chosen_flight", value = <%= flight.id %>, id= <%= flight.id %>>
+                <label for=<%= flight.id %>>Flight's number: <%= flight.id %></label>
+                <ul>
+                    <%= render "shared/flight", :flight => flight %>
+                </ul>
+            <% end%>
+            <input type="hidden", name= "number_tickets", value= <%= @number_tickets %>>
+            <%= f.submit "Select" %>
+        <% end %>
+    <% end %>
+<% end %>

@@ -1,0 +1,21 @@
+<h1>Book your flight!</h1>
+<%= form_with url: "/flights", method: :get do |f| %>
+    <%= f.label :departure_airport, "Departure airport: " %>
+    <%= f.select(:departure_airport, options_for_select(@airports)) %>
+
+    <%= f.label :arrival_airport, "Arrival airport: " %>
+    <%= f.select(:arrival_airport, options_for_select(@airports))   %>
+
+    <%= f.label :number_tickets, "Number of passenger: " %>
+    <%= f.number_field :number_tickets, in: 1..4, step: 1   %>
+    
+    <%= f.label :flight_date, "Flight's date: " %>
+    <%= f.select(:flight_date, options_for_select(@flight_dates))   %>
+    <%# <%= f.date_select :flight_date, options_for_select(@flight_dates) %> 
+    <%= f.submit "Search" %>
+<% end %>
+<%# @searched_flights is nil in case of /flights %>
+<%# <% p @flight_date_test %>
+<%# <%= @flight_date_test.class %> 
+
+<%= render "searched_result" %>

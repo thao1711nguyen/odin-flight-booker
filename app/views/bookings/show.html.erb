@@ -1,0 +1,13 @@
+<h2>YOUR TICKET</h2>
+<ul>
+    <%= render "shared/flight", flight: @flight %>
+    <li>Number of Passenger: <%= @booking.number_tickets %></li>
+    <br>
+    <ul>
+        <% @passengers.each_with_index do |passenger, idx| %>
+            <ul>
+                <%= render "shared/passenger", passenger: passenger, number: idx+1 %>
+            </ul>
+        <% end %>
+    </ul>
+</ul>
