@@ -4,21 +4,39 @@
     <%= render "shared/flight", :flight => @flight %>
 </ul>
 
-<%= form_with model: @booking do |f| %>
-    <%= f.hidden_field :chosen_flight, value: @flight.id %>
-    <%= f.hidden_field :number_tickets, value: @tickets %>
-    <h3>Please enter the passenger's information: </h3>
-    <ul>
-        <li>
-            <%= f.fields_for :passengers do |passenger_form| %>
-                <%= passenger_form.label :name, "Name: " %>
-                <%= passenger_form.text_field :name %>
+<div data-controller="change-ticket">
+    <%= form_with model: @booking do |f| %>
+        <%= f.hidden_field :chosen_flight, value: @flight.id %>
+        <input data-change-ticket-target="ticketNumber" type="hidden" name="number_tickets", value="<%= @tickets%>" >
+        <h3>Please enter the passenger's information: </h3>
+        <ul data-change-ticket-target="list">
+            <li >
+                <%= f.fields_for :passengers do |passenger_form| %>
+                    <%= passenger_form.label :name, "Name: " %>
+                    <%= passenger_form.text_field :name %>
 
-                <%= passenger_form.label :email, "Email: " %>
-                <%= passenger_form.text_field :email %>
-            <% end %>
-        </li>
-        
-    </ul>
-    <%= f.submit "Book" %>
-<% end %>
+                    <%= passenger_form.label :email, "Email: " %>
+                    <%= passenger_form.text_field :email %>
+                <% end %>
+            </li>
+            <br>
+        </ul>
+        <button type="button" data-action="change-ticket#add" >Add passenger</button>
+        <br>
+        <br>
+        <%= f.submit "Book" %>
+
+        <template data-change-ticket-target="passengerFormTemplate" >
+            <li>
+                <%= f.fields_for :passengers, @booking.passengers.build do |passenger_form| %>
+                    <%= passenger_form.label :name, "Name: " %>
+                    <%= passenger_form.text_field :name %>
+
+                    <%= passenger_form.label :email, "Email: " %>
+                    <%= passenger_form.text_field :email %>
+                <% end %>
+            </li>
+        </template>
+    <% end %>
+
+</div>

@@ -29,5 +29,5 @@ class BookingsController < ApplicationController
         params.require(:booking).permit(:number_tickets, 
                                         passengers_attributes: [:name, :email])
     end
-   
+    
 end
