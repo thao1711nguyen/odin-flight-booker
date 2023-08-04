@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Thank you for choosing to fly with us <%= @passenger.name %></h1>
+    <p>
+      You have successfully book a flight with Odin's flight,
+      your flight's number is: <%= @flight.id %>.<br>
+    </p>
+    <p>
+      To check your flight's info, just follow this <%= link_to 'link', booking_url(@booking) %>.
+    </p>
+    <p>Have a great day!</p>
+  </body>
+</html>
