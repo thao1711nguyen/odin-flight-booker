@@ -7,20 +7,27 @@
 <div data-controller="change-ticket">
     <%= form_with model: @booking do |f| %>
         <%= f.hidden_field :chosen_flight, value: @flight.id %>
-        <input data-change-ticket-target="ticketNumber" type="hidden" name="number_tickets", value="<%= @tickets%>" >
+        
+        <input data-change-ticket-target="ticketNumber" type="hidden" name="booking[number_tickets]", value="<%= @tickets%>" >
         <h3>Please enter the passenger's information: </h3>
         <ul data-change-ticket-target="list">
-            <li >
-                <%= f.fields_for :passengers do |passenger_form| %>
-                    <%= passenger_form.label :name, "Name: " %>
-                    <%= passenger_form.text_field :name %>
+            <% @tickets.times do %>
+                <li>
+                    <%= f.fields_for :passengers, @booking.passengers.build do |passenger_form| %>
+                        <%= passenger_form.label :name, "Name: " %>
+                        <%= passenger_form.text_field :name %>
 
-                    <%= passenger_form.label :email, "Email: " %>
-                    <%= passenger_form.text_field :email %>
-                <% end %>
-            </li>
-            <br>
+                        <%= passenger_form.label :email, "Email: " %>
+                        <%= passenger_form.text_field :email %>
+                        
+                    <% end %>
+                    <button type="button" data-action="change-ticket#remove" >Remove passenger</button>
+                    <br>
+                    <br>
+                </li>
+            <% end %>
         </ul>
+        <div data-change-ticket-target="warning"></div>
         <button type="button" data-action="change-ticket#add" >Add passenger</button>
         <br>
         <br>
@@ -35,6 +42,8 @@
                     <%= passenger_form.label :email, "Email: " %>
                     <%= passenger_form.text_field :email %>
                 <% end %>
+                <button type="button" data-action="change-ticket#remove" >Remove passenger</button>
+                <br><br>
             </li>
         </template>
     <% end %>
